@@ -7,6 +7,9 @@ import numpy as np
 
 
 def segmentRegions(im, labels):
+    current_meanY = -1
+    row = 1
+
     labeled_letters = []
     for region_number, quantity in labels:
         if(region_number!=0):
@@ -37,9 +40,24 @@ def segmentRegions(im, labels):
                 
                 letter = letter[y0:y1, x0:x1]
                 
-                labeled_letters.append(letter)
-            
-    return labeled_letters
+                # mean value x and y for sorting
+                in_m0 = int(indices[0].shape[0] / 2)
+                in_m1 = int(indices[1].shape[0] / 2)
+                meanval0 = indices[0][in_m0]
+                meanval1 = indices[1][in_m1]
+
+                if (current_meanY == -1):
+                    current_meanY = meanval0
+
+                if (current_meanY < meanval0 - 5):
+                    current_meanY = meanval0
+                    row = row + 1
+
+                labeled_letters.append([letter, row, meanval1])
+   
+    labeled_letters_sorted = sorted(labeled_letters, key=lambda v: (v[1], v[2]))
+    
+    return labeled_letters_sorted
 
 
 
