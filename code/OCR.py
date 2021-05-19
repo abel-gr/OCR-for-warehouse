@@ -2,8 +2,13 @@ import Mathematical_Morphology as morpho
 import MeanShift as MeanShift
 import Niblack as niblack
 import LabelingRegions as LabelingRegions
+import LettersNumbersClassification as LetNumClassif
 
 import numpy as np
+
+
+def classifyImages(imgs):
+    return LetNumClassif.ClassifyLettersNumbers(imgs)
 
 
 def segmentRegions(im, labels):
@@ -175,6 +180,10 @@ OCR main function. If it found text in the image, it returns it as string.
 input:
     - im: The image that want to recognize the text
     - light_method: Method used in light correction and binarization. 0 for Opening Residue + Mean shift, 1 for Niblack
+    - labelingConnectivity: C8 for connectivity-eight and C4 for connectivity-four
+
+output:
+    - text: The text found in the image as string
 """
 def OCR(im, light_method=0, labelingConnectivity='C8'):
     
@@ -186,7 +195,9 @@ def OCR(im, light_method=0, labelingConnectivity='C8'):
     
     letters = segmentRegions(im, labels)
     
-    return letters
+    text = classifyImages(letters)
+    
+    return text
 
 
 
