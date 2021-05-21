@@ -15,10 +15,12 @@ def segmentRegions(im, labels):
     current_meanY = -1
     row = 1
 
+    minquantity = LetNumClassif.dataset_images_sizeX * 0.4 #10
+    
     labeled_letters = []
     for region_number, quantity in labels:
         if(region_number!=0):
-            if(quantity > 10):
+            if(quantity > minquantity):
                 letter = np.where(im==region_number, 1, 0)
                 
                 s0 = letter.shape[0]
@@ -26,10 +28,10 @@ def segmentRegions(im, labels):
                 
                 indices = np.where(letter==1)
 
-                y0 = indices[0][0] - 5
-                y1 = indices[0][-1] + 5
-                x0 = indices[1][0] - 5
-                x1 = indices[1][-1] + 5
+                y0 = np.min(indices[0]) - 5
+                y1 = np.max(indices[0]) + 5
+                x0 = np.min(indices[1]) - 5
+                x1 = np.max(indices[1]) + 5
                 
                 if(y0 < 0):
                     y0 = 0
@@ -46,15 +48,20 @@ def segmentRegions(im, labels):
                 letter = letter[y0:y1, x0:x1]
                 
                 # mean value x and y for sorting
+                """
                 in_m0 = int(indices[0].shape[0] / 2)
                 in_m1 = int(indices[1].shape[0] / 2)
                 meanval0 = indices[0][in_m0]
                 meanval1 = indices[1][in_m1]
+                """                
+                meanval0 = np.mean(indices[0])
+                meanval1 = np.mean(indices[1])
 
                 if (current_meanY == -1):
                     current_meanY = meanval0
 
-                if (current_meanY < meanval0 - 5):
+                #if (current_meanY < meanval0 - 5):
+                if (meanval0 - current_meanY >  ((y1-y0) * 0.5)):
                     current_meanY = meanval0
                     row = row + 1
 
@@ -179,17 +186,19 @@ OCR main function. If it found text in the image, it returns it as string.
 
 input:
     - im: The image that want to recognize the text
-    - light_method: Method used in light correction and binarization. 0 for Opening Residue + Mean shift, 1 for Niblack
+    - light_method: Method used in light correction and binarization. -1 for none, 0 for Opening Residue + Mean shift, 1 for Niblack
     - labelingConnectivity: C8 for connectivity-eight and C4 for connectivity-four
 
 output:
     - text: The text found in the image as string
 """
-def OCR(im, light_method=0, labelingConnectivity='C8'):
+def OCR(im, light_method=-1, labelingConnectivity='C8'):
     
     im = correct_perspective(im)
     
-    im = light_correction_and_binarize(im, light_method)
+    if(light_method != -1):
+        
+        im = light_correction_and_binarize(im, light_method)
     
     [im, labels] = labelingRegions(im, labelingConnectivity)
     
