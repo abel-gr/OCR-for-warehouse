@@ -15,7 +15,7 @@ def segmentRegions(im, labels):
     current_meanY = -1
     row = 1
 
-    minquantity = LetNumClassif.dataset_images_sizeX * 0.4 #10
+    minquantity = LetNumClassif.dataset_images_sizeX * 0.7
     
     labeled_letters = []
     for region_number, quantity in labels:
