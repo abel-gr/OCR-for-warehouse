@@ -83,12 +83,12 @@ def getCharFromClassID(code, CaseSensitive=False):
         
     return chr(code)
 
-dataset_images_sizeX = 100
-dataset_images_sizeY = 150
+dataset_images_sizeX = 35
+dataset_images_sizeY = 35
 
-imScales = [0.3, 0.4, 0.5, 0.6, 0.7, 1.0]
+imScales = [0.7, 1.0, 1.5, 1.8]
 
-# Trains a Multi-Layer perceptron with the letters and numbers images and saves it as a .joblif file
+# Trains a Multi-Layer perceptron with the letters and numbers images and saves it as a .joblib file
 def train(imgs_path):
     
     dicClases = {}
@@ -96,7 +96,7 @@ def train(imgs_path):
     X = []
     y = []
 
-    for i in range(1, 6):
+    for i in range(1, 2):
         path = imgs_path + '/font' + str(i) + '/'
         
         for x in os.listdir(path):
@@ -119,7 +119,7 @@ def train(imgs_path):
                 y1 = np.max(indices[0]) + 5
                 x0 = np.min(indices[1]) - 5
                 x1 = np.max(indices[1]) + 5
-
+                
 
                 if(y0 < 0):
                     y0 = 0
@@ -158,13 +158,13 @@ def train(imgs_path):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, stratify=y, random_state=1)
     
-    clf = MLPClassifier(random_state=1, max_iter=2000, hidden_layer_sizes=[400, 200, 200], learning_rate_init=1.0e-3, alpha=0.01)
+    clf = MLPClassifier(random_state=1, max_iter=2000, hidden_layer_sizes=[100, 100, 50], learning_rate_init=1.0e-3, alpha=0.01)
     
     clf.fit(X_train, y_train)
     
     dump(clf, 'MLP.joblib')
     
-    return [clf, X_train, X_test, y_train, y_test]
+    return [clf, X_train, X_test, y_train, y_test, dicClases]
 
 def ClassifyLettersNumbers(imgs):
     
@@ -195,7 +195,7 @@ def ClassifyLettersNumbers(imgs):
             
         else:
             
-            if (meanval1 - prevMeanVal1) > (dataset_images_sizeX * 0.35):
+            if (meanval1 - prevMeanVal1) > (dataset_images_sizeX * 0.88):
                 
                 ln = ln + ' '
             
