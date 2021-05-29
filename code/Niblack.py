@@ -51,4 +51,9 @@ def NiblackBinarization(im, sizeI=4, sizeJ=4, k=1.0):
     img[img <= t] = 0
     img[img > t] = 1
     
+    img[:, 0:9] = 0
+    img[:, -9:] = 0
+    img[0:9, :] = 0
+    img[-9:, :] = 0
+    
     return img
