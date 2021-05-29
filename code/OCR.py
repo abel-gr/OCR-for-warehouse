@@ -5,6 +5,7 @@ import LabelingRegions as LabelingRegions
 import LettersNumbersClassification as LetNumClassif
 
 import numpy as np
+from PIL import Image
 
 
 def classifyImages(imgs):
@@ -15,7 +16,7 @@ def segmentRegions(im, labels):
     current_meanY = -1
     row = 1
 
-    minquantity = LetNumClassif.dataset_images_sizeX * 0.7
+    minquantity = LetNumClassif.dataset_images_sizeX * 0.8
     
     labeled_letters = []
     for region_number, quantity in labels:
@@ -27,11 +28,13 @@ def segmentRegions(im, labels):
                 s1 = letter.shape[1]
                 
                 indices = np.where(letter==1)
+                
+                ed = 1
 
-                y0 = np.min(indices[0]) - 5
-                y1 = np.max(indices[0]) + 5
-                x0 = np.min(indices[1]) - 5
-                x1 = np.max(indices[1]) + 5
+                y0 = np.min(indices[0]) - ed
+                y1 = np.max(indices[0]) + ed
+                x0 = np.min(indices[1]) - ed
+                x1 = np.max(indices[1]) + ed
                 
                 if(y0 < 0):
                     y0 = 0
@@ -60,7 +63,6 @@ def segmentRegions(im, labels):
                 if (current_meanY == -1):
                     current_meanY = meanval0
 
-                #if (current_meanY < meanval0 - 5):
                 if (meanval0 - current_meanY >  ((y1-y0) * 0.5)):
                     current_meanY = meanval0
                     row = row + 1
@@ -164,7 +166,8 @@ def light_correction_and_binarize(img, method=0):
     
     else:
         
-        image_letters = niblack.NiblackBinarization(img, 15, 15, 0.3)
+        #image_letters = niblack.NiblackBinarization(img, 15, 15, 0.3)
+        image_letters = niblack.NiblackBinarization(img, 20, 20, 0.5)
 
     return image_letters
 
@@ -195,6 +198,9 @@ output:
 def OCR(im, light_method=-1, labelingConnectivity='C8'):
     
     im = correct_perspective(im)
+    
+    im = Image.fromarray(im)
+    im = np.asarray(im.resize((500, 500)))
     
     if(light_method != -1):
         

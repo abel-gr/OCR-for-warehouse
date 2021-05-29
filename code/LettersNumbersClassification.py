@@ -10,6 +10,8 @@ from sklearn.utils import shuffle
 
 import Mathematical_Morphology as morpho
 
+import matplotlib.pyplot as plt
+
 def getClassIDfromChar(character, CaseSensitive=False):
     
     code = ord(character)
@@ -86,7 +88,7 @@ def getCharFromClassID(code, CaseSensitive=False):
 dataset_images_sizeX = 35
 dataset_images_sizeY = 35
 
-imScales = [0.7, 1.0, 1.5, 1.8]
+imScales = [0.7, 1.0, 1.5, 1.8, 2.5]
 
 # Trains a Multi-Layer perceptron with the letters and numbers images and saves it as a .joblib file
 def train(imgs_path):
@@ -96,7 +98,7 @@ def train(imgs_path):
     X = []
     y = []
 
-    for i in range(1, 2):
+    for i in range(1, 6):
         path = imgs_path + '/font' + str(i) + '/'
         
         for x in os.listdir(path):
@@ -114,11 +116,13 @@ def train(imgs_path):
                 img = np.where(img < 200, 1, 0)
 
                 indices = np.where(img==1)
+                
+                ed = 1
 
-                y0 = np.min(indices[0]) - 5
-                y1 = np.max(indices[0]) + 5
-                x0 = np.min(indices[1]) - 5
-                x1 = np.max(indices[1]) + 5
+                y0 = np.min(indices[0]) - ed
+                y1 = np.max(indices[0]) + ed
+                x0 = np.min(indices[1]) - ed
+                x1 = np.max(indices[1]) + ed
                 
 
                 if(y0 < 0):
@@ -136,7 +140,7 @@ def train(imgs_path):
                 img = img[y0:y1, x0:x1]    
 
                 img = Image.fromarray(img)
-                img = np.asarray(img.resize((dataset_images_sizeX, dataset_images_sizeY)))             
+                img = np.asarray(img.resize((dataset_images_sizeX, dataset_images_sizeY))) 
 
                 clase = getClassIDfromChar(x[0], False)
 
@@ -175,6 +179,8 @@ def ClassifyLettersNumbers(imgs):
     crow = 1
     prevMeanVal1 = 0
     
+    prevChar = ''
+    
     for im, row, meanval1 in imgs:
 
         im_c = Image.fromarray(im)
@@ -195,11 +201,23 @@ def ClassifyLettersNumbers(imgs):
             
         else:
             
-            if (meanval1 - prevMeanVal1) > (dataset_images_sizeX * 0.88):
+            if (meanval1 - prevMeanVal1) > (dataset_images_sizeX * 0.8):
                 
                 ln = ln + ' '
+                
+            elif (lett == '0' and prevChar != ''):
+                
+                # Avoid classifying the letter O as a zero within
+                # a word (only happens in fonts where O and 0 are almost indistinguishable):
+                if (ord(prevChar) < 48 or ord(prevChar) > 57):
+                    
+                    lett = 'O'
+                
+                
             
         prevMeanVal1 = meanval1
+        
+        prevChar = lett
         
         ln = ln + lett
         
