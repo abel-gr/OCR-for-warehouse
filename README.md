@@ -12,7 +12,7 @@ Optical Character Recognition system to recognize the text inside the labels of 
      * [Multi-layer perceptron training](#)
      * [Perspective removal and initial cropping](#Perspective-removal-and-initial-cropping)
      * [Non-uniform light correction](#Non-uniform-light-correction)
-         * [Opening Residue + Mean-shift](#Opening-Residue-+-Mean-shift)
+         * [Opening Residue + Mean-shift](#Opening-Residue--Mean-shift)
          * [Niblack method](#Niblack-method)
      * [Region labeling](#Region-labeling)
      * [Image classification](#Image-classification)
