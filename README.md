@@ -2,7 +2,21 @@
 Optical Character Recognition system to recognize the text inside the labels of warehouse boxes.
 
 ## Table of Contents  
- * [Abstract](#abstract)
+ * [Abstract](#Abstract)
+ * [Introduction](#Introduction)
+ * [Approach](#Approach)
+     * [Process flow](#Process-flow)
+     * [Datasets used](#Datasets-used)
+     * [System performance measurement](#System-performance-measurement)
+ * [Experiments, results and analysis](#Experiments,-results-and-analysis)
+     * [Multi-layer perceptron training](#)
+     * [Perspective removal and initial cropping](#Perspective-removal-and-initial-cropping)
+     * [Non-uniform light correction](#Non-uniform-light-correction)
+         * [Opening Residue + Mean-shift](#Opening-Residue-+-Mean-shift)
+         * [Niblack method](#Niblack-method)
+     * [Region labeling](#Region-labeling)
+     * [Image classification](#Image-classification)
+ * [Conclusions](#Conclusions)
 
 ## Abstract
 
