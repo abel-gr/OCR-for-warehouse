@@ -8,11 +8,21 @@ import numpy as np
 from PIL import Image
 
 
+
+"""
+classifyImages: Returns the final text as string
+"""
 def classifyImages(imgs):
+    
     return LetNumClassif.ClassifyLettersNumbers(imgs)
 
 
+
+"""
+segmentRegions: Returns the list of letters or numbers segmented
+"""
 def segmentRegions(im, labels):
+    
     current_meanY = -1
     row = 1
 
@@ -89,6 +99,7 @@ output:
               that are in that region.
 """
 def labelingRegions(img, connectivity='C8'):
+    
     if (connectivity == 'C8'):
         [im_out, eq] = LabelingRegions.LabelingRegionsC8(img)
     else:
@@ -195,14 +206,16 @@ input:
 output:
     - text: The text found in the image as string
 """
-def OCR(im, light_method=-1, labelingConnectivity='C8'):
+def OCR(im, light_method = -1, labelingConnectivity = 'C8', perspective_correction = -1):
     
-    im = correct_perspective(im)
+    if (perspective_correction != -1):
+        
+        im = correct_perspective(im)
     
     im = Image.fromarray(im)
     im = np.asarray(im.resize((500, 500)))
     
-    if(light_method != -1):
+    if (light_method != -1):
         
         im = light_correction_and_binarize(im, light_method)
     
