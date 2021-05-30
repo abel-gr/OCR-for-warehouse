@@ -105,19 +105,19 @@ As we wanted to make the problem realistic, we have included in the scene in whi
 A first approach to solve this problem has been to use _Opening Residue_. For this we have created a function that slides a window through the image, to calculate the minimum or the maximum, as indicated by the parameter. In this way, we take advantage of the created code for both _erosion_ and image _dilation_ of mathematical morphology, modifying a parameter. We create a new function for the _Opening_ that consists of calling our _erode_, and then the _dilate_. We add the _Opening Residue_ function that subtracts the result of the _Opening_ function that we had already created from the original image. Below we show the results of these algorithms:
 
 <div style="display: flex; flex-flow: row;">
-  <img src="imgs/results/rice.png" width="448" height="336">
-  <img src="imgs/results/erode.png" width="448" height="336">
-  <img src="imgs/results/dilate.png" width="448" height="336">
-  <img src="imgs/results/opening.png" width="448" height="336">
-  <img src="imgs/results/rice_openingresidue.png" width="448" height="336">
-  <img src="imgs/results/rice_binarized_opres.png" width="448" height="336">
+  <img src="imgs/results/rice.png" width="400" height="300">
+  <img src="imgs/results/erode.png" width="400" height="300">
+  <img src="imgs/results/dilate.png" width="400" height="300">
+  <img src="imgs/results/opening.png" width="400" height="300">
+  <img src="imgs/results/rice_openingresidue.png" width="400" height="300">
+  <img src="imgs/results/rice_binarized_opres.png" width="400" height="300">
 </div>
 
 The problem now is to determine what is the appropriate threshold value to binarize the result of the _Opening residue_, since after performing the process on different images of boxes, the value was always different. For this we have implemented the _Mean Shift_ algorithm. It is a non-parametric clustering technique to locate the maximums of a density function in which a window is determined for each point in the image and the mean of the points in the window is calculated. We move the window to the mean until convergence, obtaining the local maxima of the probability density function, which are the densest regions. We have also implemented this algorithm ourselves, and applied it to the result of the _Opening Residue_ as mentioned. In this way we obtain a certain number of clusters. We simply count how many points belong to each cluster, and the region with the most points is the background that we discard. From the rest of the regions, we eliminate those that have an amount less than a percentage, and we keep the resulting ones, achieving correctly segmenting the text and also remaining binarized for all the cases that we have tested. Below we see the results of binarizing the image obtained applying _Opening Residue_. It can be seen that the result of manually searching for the appropriate threshold (image on the left) and using our method with Mean Shift (image on the right) is practically the same, and the second method has the advantage of being completely automatic for all input images with correct results.
 
 <div style="display: flex; flex-flow: row;">
-  <img src="imgs/results/b1_manualbin.png" width="448" height="336">
-  <img src="imgs/results/b1_meanshiftbin.png" width="448" height="336">
+  <img src="imgs/results/b1_manualbin.png" width="400" height="300">
+  <img src="imgs/results/b1_meanshiftbin.png" width="400" height="300">
 </div>
 
 #### Niblack method
@@ -125,8 +125,8 @@ The problem now is to determine what is the appropriate threshold value to binar
 We believe that the light correction results could be even better than what we have shown above. To achieve this we have decided to implement the _Niblack_ algorithm ourselves. This technique allows us to obtain the local threshold for each point in the image from the mean and standard deviation of the neighborhood. The size of the window and the _K_ that multiplies the standard deviation are two parameters that we have included, and that determine the final result. However we have found a good value for both that works on all the label images we have tested. Below we can see the result for the image of rice and the image of the label captured by the camera that we had also tested with the previous method:
 
 <div style="display: flex; flex-flow: row;">
-  <img src="imgs/results/rice_binarized_niblack.png" width="448" height="336">
-  <img src="imgs/results/b1_niblackbin.png" width="448" height="336">
+  <img src="imgs/results/rice_binarized_niblack.png" width="400" height="300">
+  <img src="imgs/results/b1_niblackbin.png" width="400" height="300">
 </div>
 
 It can be seen in the previous image that the results with Niblack for both images are almost as good as the results obtained with the _Opening Residue_ + _Mean Shift_. However, the technique using _Opening Residue_ and _Mean Shift_ is approximately 30% slower than applying _Niblack_ alone. Therefore we have included both techniques in our final code so that the user can choose through a parameter which one wants to use.
@@ -135,17 +135,17 @@ It can be seen in the previous image that the results with Niblack for both imag
 
 Once we have the binarized image, we must segment each letter separately. For this we have implemented the region labeling algorithm. First we implemented the connectivity to 4 but there were numbers and letters that separated into two regions. Therefore, we created a second function from the first, and modified it so that the labeling was with connectivity to 8. We see the result below in which each region number has been assigned a color for visualize that each letter and number has been correctly labeled:
 
-![RegionLabelingResult](imgs/RegionLabelingResult.png)
+<img src="imgs/results/b1_labeling.png" width="560" height="420">
 
 Now that each letter is represented by a unique region number, we just had to segment the image by each of these numbers. We apply a bounding box to the result and we obtain each letter cropped and segmented. However, there is another process that we must carry out because the uppercase letters of the phrase were all obtained at the beginning when segmenting them since the labeling algorithm places lower numbers to higher letters because it has found them before. To solve this, after the labeling and bounding box process, we properly order the letters calculating the average value of the positions in X and Y for each letter, obtaining its approximate center. If the mean Y value of a letter is greater than 70% of the size of the letters, it is considered to be a new line of text. In this way we can sort the letters by two variables, by row and by the average value in X. In this way we have all the letters ordered correctly and automatically in all cases. In addition, this is a way to count the lines of text that are in the image automatically. Below we can see an example of the first 9 segmented and cropped letters, with their correct order, after applying these techniques that we have implemented:
 
-![CroppedLett](imgs/CroppedLett.png)
+<img src="imgs/results/b1_charscrop.png" width="640" height="130">
 
 ### Image classification
 
 Each separate image of a letter or a number is now introduced into the multilayer perceptron that we trained at the begining in order to obtain which letter or number it corresponds to. With the variables of average position in X and Y for each letter that we mentioned in the previous section, we are able to automatically introduce spaces between words and line breaks in the string, and they always coincide with the original image. Below we see the final result of the process in string format:
 
-![finalString](imgs/finalString.png)
+<img src="imgs/results/b1_string.png" width="318" height="173">
 
 ## Conclusions
 
