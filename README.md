@@ -1,6 +1,8 @@
 # Warehouse OCR
 Optical Character Recognition system to recognize the text inside the labels of warehouse boxes.
 
+<img src="imgs/results/intro.png" width="768" height="310">
+
 ## Table of Contents  
  * [Abstract](#Abstract)
  * [Introduction](#Introduction)
