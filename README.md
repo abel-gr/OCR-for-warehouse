@@ -42,13 +42,25 @@ As a result of all the previous process we will obtain the complete text in stri
 
 Recognizing text within images is a complex process, and even more with the infinite number of fonts that exist. Therefore, we will limit the complexity of our problem using sets of images from known sources as data to train the multilayer perceptron. However, we have chosen fonts that are quite different from each other so as not to reduce the problem difficulty too much. We have generated these images ourselves.
 
-![DatasetChars](imgs/datasetc.png)
+<div style="display: flex; flex-flow: row;">
+  <img src="imgs/chars/font1/a.png" width="150" height="100">
+  <img src="imgs/chars/font2/a.png" width="150" height="100">
+  <img src="imgs/chars/font3/a.png" width="150" height="100">
+  <img src="imgs/chars/font4/a.png" width="150" height="100">
+  <img src="imgs/chars/font5/a.png" width="150" height="100">
+</div>
+
 
 To generate the dataset we have used the Python _matplotlib_ library that allows us to quickly and easily include text in a plot and then save it as an image to disk.
 
 We have also used the same process to generate the label images, which we have then placed in 3D boxes using the Coppelia robotics simulator. Below we show four photographs that the camera of our warehouse robot has taken on the boxes. The robot has made them in random positions so that they all have different lighting and perspective.
 
-![RobotPhotos](imgs/RobotPhotos.png)
+<div style="display: flex; flex-flow: row;">
+  <img src="imgs/photos/1.png" width="400" height="300">
+  <img src="imgs/photos/4.png" width="400" height="300">
+  <img src="imgs/photos/5.png" width="400" height="300">
+  <img src="imgs/photos/7.png" width="400" height="300">
+</div>
 
 ### System performance measurement
 
