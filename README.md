@@ -40,17 +40,19 @@ This project is useful in automation areas, especially in the new smart warehous
 
 To solve the problem we will use multiple computer vision techniques, both at a low level and at a higher level. Specifically, the process flow with the steps and techniques that we will apply is as follows:
 
-1. Train a multi-layer perceptron from Python's sklearn library with letter images that we will describe in section 3.2.
+1. Train a multi-layer perceptron from Python's Scikit-learn library with letter and numbers images that we described above.
 
-2. Generate an algorithm that allows to automatically eliminate the perspective and bad lighting that the images obtained from the boxes may have and that may affect the subsequent classification. In the case of perspective we will use homographies. And in the case of bad lighting, we will implement the Opening Residue and Niblack algorithms at a low level, to use both and compare their results. Therefore, to implement the Opening Residue, we will also implement erosion and dilation techniques of mathematical morphology at a low level.
+2. Generate an algorithm that allows to automatically eliminate the perspective and non-uniform light that the images obtained from the boxes may have and that may affect the classification. In the case of perspective we will use homographies. And in the case of bad light, we implemented the _Opening Residue_ and the _Niblack_ algorithms at a low level, to use both and compare their results. Therefore, to implement the _Opening Residue_, we also implemented _erode_ and _dilate_ techniques of mathematical morphology at a low level.
 
-3. Binarize the image from the results of Opening Residue or Niblack according to the chosen method. In the case of Opening Residue, after correcting the lighting, we will implement Mean Shift to be able to segment all the text so that we do not need to set a threshold.
+3. Crop the image to keep the part of the box where only the label is visible.
 
-4. Segment the binarized image to keep the part of the box where only the label is visible.
+4. Binarize the image from the results of the _Opening Residue_ or _Niblack_ according to the chosen method by a function parameter. In the case of _Opening Residue_, after correcting the light, we implemented and used _Mean Shift_ to be able to segment all the text without the need to set a threshold.
 
-5. From the previous result, segment each letter separately. For this, we will implement the region labeling technique at a low level.
+5. From the previous result, segment each letter separately. For this, we implemented the region labeling technique at a low level.
 
-6. Introduce each letter image separately to the multi-layer perceptron that we had trained in step 1 to classify and obtain the associated category, which will be related to a character or a number.
+6. Crop each letter already segmented using a bounding box.
+
+7. Introduce each letter or number image separately to the multi-layer perceptron that we had trained in step 1 to classify and obtain the associated category, which will be related to a character or a number.
 
 As a result of all the previous process we will obtain the complete text in string format.
 
