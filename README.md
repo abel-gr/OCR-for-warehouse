@@ -12,7 +12,7 @@ Optical Character Recognition system to recognize the text inside the labels of 
      * [System performance measurement](#System-performance-measurement)
  * [Experiments, results and analysis](#Experiments,-results-and-analysis)
      * [Multi-layer perceptron training](#)
-     * [Perspective removal and initial cropping](#Perspective-removal-and-initial-cropping)
+     * [Perspective removal](#Perspective-removal)
      * [Non-uniform light correction](#Non-uniform-light-correction)
          * [Opening Residue + Mean-shift](#Opening-Residue--Mean-shift)
          * [Niblack method](#Niblack-method)
@@ -98,7 +98,7 @@ We have separated into 80% of train and 20% of test the dataset of letters and n
 
 ![ConfusionMatrix](code/confusion_matrix.png)
 
-### Perspective removal and initial cropping
+### Perspective removal
 
 The images captured by the robot's camera have an irregular and almost random perspective as seen below:
 
@@ -111,6 +111,8 @@ To solve this we first use the contour detector from the _cv2_ library and the r
 Having applied contours, we only have the 4 corners that we want, and we use them as points to calculate a homography with which to eliminate the perspective. Below we show the result:
 
 <img src="imgs/results/b1_perspcorrection.png" width="400" height="300">
+
+The system works correctly and automatically for images captured by the robot with different perspectives and angles. This is the only section in which we have used algorithms from libraries (in addition to the scikit-learn MLP) instead of implementing them ourselves at a low level.
 
 ### Non-uniform light correction
 
