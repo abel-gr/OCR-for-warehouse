@@ -112,7 +112,7 @@ Having applied contours, we only have the 4 corners that we want, and we use the
 
 <img src="imgs/results/b1_perspcorrection.png" width="400" height="300">
 
-The system works correctly and automatically for images captured by the robot with different perspectives and angles. This is the only section in which we have used algorithms from libraries (in addition to the scikit-learn MLP) instead of implementing them ourselves at a low level.
+The system works correctly and automatically for images captured by the robot with different perspectives and angles. This perspective correction sub-section is the only part in which we have used algorithms from libraries (in addition to the scikit-learn MLP) instead of implementing them ourselves at a low level.
 
 ### Non-uniform light correction
 
