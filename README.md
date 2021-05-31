@@ -76,7 +76,7 @@ To generate the dataset we have used the Python _matplotlib_ library that allows
 We have also used the same process to generate the label images, which we have then placed in 3D boxes using the Coppelia robotics simulator. Below we show four photographs that the camera of our warehouse robot has taken on the boxes. The robot has made them in random positions so that they all have different lighting and perspective.
 
 <div style="display: flex; flex-flow: row;">
-  <img src="imgs/photos/1.png" width="400" height="300">
+  <img src="imgs/photos/2.png" width="400" height="300">
   <img src="imgs/photos/4.png" width="400" height="300">
   <img src="imgs/photos/5.png" width="400" height="300">
   <img src="imgs/photos/7.png" width="400" height="300">
