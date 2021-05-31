@@ -1,7 +1,7 @@
 # Warehouse OCR
 Optical Character Recognition system to recognize the text inside the labels of warehouse boxes.
 
-<img src="imgs/results/intro.png" width="768" height="310">
+<img src="imgs/results/res9.png" width="768" height="310">
 
 ## Table of Contents  
  * [Abstract](#Abstract)
@@ -28,7 +28,7 @@ layer perceptron from the Scikit-Learn library. Prior to recognition, we have ca
 automatically binarize in case of using Opening Residue. We have also implemented a region labeling algorithm with connectivity to 8 to be able to label each letter or number with
 a region ID and segment them separately, to be able to introduce them into a multilayer perceptron that we have trained to obtain the letter or number to which they belong. The final result of the process is to obtain the text that appears in the image in string format.
 
-<img src="imgs/results/res6.png" width="768" height="310">
+<img src="imgs/results/intro.png" width="768" height="310">
 
 ## Introduction
 
@@ -157,5 +157,5 @@ Each separate image of a letter or a number is now introduced into the multilaye
 
 With the techniques that we have used, we have been able to recognize the text that is inside images of warehouse boxes and obtain it in _string_ format, so that an autonomous robot equipped with our algorithm is able to determine whether or not to pick up a box from the information on the label. In order to achieve these very good results, it was necessary to use a multilayer perceptron and a consistent multi-stage lower-level image pre-processing. The resolution to this problem has not been easy, since this pre-processing has been critical for the neural network to be able to perform the classification correctly. Without the pre-processing the perceptron was not able to classify practically any letter well. This reveals two important aspects, the first, the great advantage of combining low-level techniques with high-level techniques in computer vision, in order to improve results. And the second, that problems with images captured in realistic environments are difficult to deal with, due to the almost random nature of their capture, both in size, perspective and light. However, we can be satisfied with these correct results without the need to implement the advanced and computationally expensive techniques that are used today in the state of the art.
 
-<img src="imgs/results/res9.png" width="768" height="310">
+<img src="imgs/results/res6.png" width="768" height="310">
 
