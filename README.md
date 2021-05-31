@@ -100,7 +100,17 @@ We have separated into 80% of train and 20% of test the dataset of letters and n
 
 ### Perspective removal and initial cropping
 
-TODO
+The images captured by the robot's camera have an irregular and almost random perspective as seen below:
+
+<img src="imgs/photos/1.png" width="400" height="300">
+
+To solve this we first use the contour detector from the _cv2_ library and the result is passed through its Harris corner detector.
+
+<img src="imgs/results/b1_contours.png" width="400" height="300">
+
+Having applied contours, we only have the 4 corners that we want, and we use them as points to calculate a homography with which to eliminate the perspective. Below we show the result:
+
+<img src="imgs/results/b1_perspcorrection.png" width="400" height="300">
 
 ### Non-uniform light correction
 
