@@ -59,11 +59,13 @@ def correctPerspective(image):
                 im_r[i, j] = 1
     
     pc, pr = np.where(im_r == 1)
+    
+    #plt.figure()
     #plt.plot(pr, pc, 'r+')
     #plt.imshow(im, 'gray')
     #plt.show()
     #return (pr,pc)
-    show([pr,pc],im_org,w,h)
+    return show([pr,pc],im_org,w,h)
 
 def prepar(image):
     im_org=image
@@ -125,11 +127,8 @@ def show(p,image,w,h):
     pts2 = np.float32([[0, 0], [h, 0],[0, w],[h, w]])
     M = cv2.getPerspectiveTransform(pts1,pts2)
     dst = cv2.warpPerspective(image,M,(h,w))
-    plt.imshow(dst)
-    plt.show()
+    #plt.imshow(dst)
+    #plt.show()
     
+    return dst
     
-    
-image=cv2.imread('1.png')
-correctPerspective(image) 
-

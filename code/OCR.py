@@ -3,6 +3,7 @@ import MeanShift as MeanShift
 import Niblack as niblack
 import LabelingRegions as LabelingRegions
 import LettersNumbersClassification as LetNumClassif
+import correctPerspective as correctPerspective
 
 import numpy as np
 from PIL import Image
@@ -190,7 +191,8 @@ correct_perspective: It returns the image without perspective if it had.
 It also crops the image to the main region.
 """
 def correct_perspective(img):
-    return img
+    
+    return correctPerspective.correctPerspective(img)
 
 
 
@@ -211,6 +213,8 @@ def OCR(im, light_method = -1, labelingConnectivity = 'C8', perspective_correcti
     if (perspective_correction != -1):
         
         im = correct_perspective(im)
+        im = np.mean(im, axis=2)
+        im = 255 - im
     
     im = Image.fromarray(im)
     im = np.asarray(im.resize((500, 500)))
