@@ -11,7 +11,7 @@ _Optical Character Recognition system to recognize the text inside the labels of
      * [Datasets used](#Datasets-used)
      * [System performance measurement](#System-performance-measurement)
  * [Experiments, results and analysis](#Experiments,-results-and-analysis)
-     * [Multi-layer perceptron training](#)
+     * [Multi-layer perceptron training](#Multi-layer-perceptron-training)
      * [Perspective removal](#Perspective-removal)
      * [Non-uniform light correction](#Non-uniform-light-correction)
          * [Opening Residue + Mean-shift](#Opening-Residue--Mean-shift)
