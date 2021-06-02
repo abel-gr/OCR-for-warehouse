@@ -30,6 +30,8 @@ a region ID and segment them separately, to be able to introduce them into a mul
 
 <img src="imgs/results/intro.png" width="768" height="310">
 
+The whole process is 100% automatic for all images. If desired, the user who uses our functions can specify which parameters to use, to adapt it to their own images.
+
 ## Introduction
 
 In this README we will describe briefly our computer vision system capable of detecting and recognizing the text found on the labels that are attached to the boxes of a warehouse. From an image that will be processed with techniques that we will implement both at a low level and at a high level, our objective is to obtain that text in string format. We will explain the computer vision techniques that we have used to segment and classify images, as well as to correct flaws that they may have during the capture process, such as irregular light or perspective.
@@ -94,9 +96,11 @@ Throughout this section we are going to detail the algorithms that we have imple
 
 ### Multi-layer perceptron training
 
-We have separated into 80% of train and 20% of test the dataset of letters and numbers that we have created and shown before. We have used the train set to train a perceptron with 3 hidden layers of 100, 100 and 50 neurons each. For the best hyperparameter settings, the _accuracy_ has been 0.87. The average _precision_ and _recall_ between all classes have been 0.91 and 0.87 respectively. Below we can see the confusion matrix for the classification of the test data.
+We have separated into 80% of train and 20% of test the dataset of letters and numbers that we have created and shown before. We have used the train set to train a perceptron with 3 hidden layers of 100, 100 and 50 neurons each. For the best hyperparameter settings, the _accuracy_ has been 0.87. The average _precision_ and _recall_ between all classes have been 0.91 and 0.87 respectively. Below we can see the confusion matrix for the classification of the test data:
 
 ![ConfusionMatrix](code/confusion_matrix.png)
+
+We have chosen a multilayer perceptron from the _scikit-learn_ library because it is really powerful to classify letters and numbers, as well as much faster than more complex types of neural networks.
 
 ### Perspective removal
 
@@ -112,11 +116,11 @@ Having applied contours, we only have the 4 corners that we want, and we use the
 
 <img src="imgs/results/b1_perspcorrection.png" width="400" height="300">
 
-The system works correctly and automatically for images captured by the robot with different perspectives and angles. This perspective correction sub-section is the only part in which we have used algorithms from libraries (in addition to the scikit-learn MLP) instead of implementing them ourselves at a low level.
+The system works correctly and automatically for images captured by the robot with different perspectives and angles. This perspective correction sub-section is the only part in which we have used algorithms from libraries (in addition to the _scikit-learn_ MLP used) instead of implementing them ourselves at a low level.
 
 ### Non-uniform light correction
 
-As we wanted to make the problem realistic, we have included in the scene in which the robot captures the images, light sources with different angles and intensities for each area in which the boxes are located. Therefore, we have implemented 3 algorithms to allow us to correctly correct the non-uniform light and then binarize the images.
+As we wanted to make the problem realistic, we have included in the scene in which the robot captures the images, light sources with different angles and intensities for each area in which the boxes are located. Therefore, we have implemented ourselves at a low level 3 algorithms to allow us to correctly correct the non-uniform light and then binarize the images.
 
 #### Opening Residue + Mean-shift
 
@@ -140,7 +144,7 @@ The problem now is to determine what is the appropriate threshold value to binar
 
 #### Niblack method
 
-We believe that the light correction results could be even better than what we have shown above. To achieve this we have decided to implement the _Niblack_ algorithm ourselves. This technique allows us to obtain the local threshold for each point in the image from the mean and standard deviation of the neighborhood. The size of the window and the _K_ that multiplies the standard deviation are two parameters that we have included, and that determine the final result. However we have found a good value for both that works on all the label images we have tested. Below we can see the result for the image of rice and the image of the label captured by the camera that we had also tested with the previous method:
+We wanted to check if we could improve the results of the above technique. To achieve this we have decided to implement ourselves the _Niblack_ algorithm ourselves. This technique allows us to obtain the local threshold for each point in the image from the mean and standard deviation of the neighborhood. The size of the window and the _K_ that multiplies the standard deviation are two parameters that we have included, and that determine the final result. However we have found a good value for both that works on all the label images we have tested. Below we can see the result for the image of rice and the image of the label captured by the camera that we had also tested with the previous method:
 
 <div style="display: flex; flex-flow: row;">
   <img src="imgs/results/rice_binarized_niblack.png" width="400" height="300">
@@ -151,7 +155,7 @@ It can be seen in the previous image that the results with Niblack for both imag
 
 ### Region labeling
 
-Once we have the binarized image, we must segment each letter separately. For this we have implemented the region labeling algorithm. First we implemented the connectivity to 4 but there were numbers and letters that separated into two regions. Therefore, we created a second function from the first, and modified it so that the labeling was with connectivity to 8. We see the result below in which each region number has been assigned a color for visualize that each letter and number has been correctly labeled:
+Once we have the binarized image, we must segment each letter separately. For this we have implemented ourselves the region labeling algorithm. First we implemented the connectivity to 4 but there were numbers and letters that separated into two regions. Therefore, we created a second function from the first, and modified it so that the labeling was with connectivity to 8. We see the result below in which each region number has been assigned a color for visualize that each letter and number has been correctly labeled:
 
 <img src="imgs/results/b1_labeling.png" width="560" height="420">
 
